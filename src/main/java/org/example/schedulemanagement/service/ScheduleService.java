@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -15,9 +17,10 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+
     //일정 생성
     @Transactional
-    public CreateScheduleResponse createSchedule(CreateScheduleRequest request){
+    public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
         Schedule schedule = new Schedule(
                 request.getTitle(),
                 request.getContent(),
@@ -35,6 +38,7 @@ public class ScheduleService {
                 schedule.getUpdatedAt());
 
     }
+
     //일정 단건 조회
     @Transactional(readOnly = true)
     public GetScheduleResponse getSchedule(Long scheduleId) {
@@ -49,40 +53,52 @@ public class ScheduleService {
                 schedule.getUpdatedAt()
         );
     }
+
     //일정 전체 조회
     @Transactional(readOnly = true)
-    public List<GetScheduleResponse> getAllSchedules() {
+    public List<GetScheduleResponse> getAllSchedules(GetScheduleOfUserRequest request) {
         List<Schedule> list = scheduleRepository.findAll().stream().toList();
-        return list.stream().map(schedule->
-            new GetScheduleResponse(
-                    schedule.getId(),
+        if (request.getWriter().equals("")) {
+            return list.stream().map(schedule
+                    -> new GetScheduleResponse(schedule.getId(),
                     schedule.getTitle(),
                     schedule.getContent(),
                     schedule.getWriter(),
                     schedule.getCreatedAt(),
-                    schedule.getUpdatedAt())).toList();
-    }
-
-    //일정 전체 조회
-    @Transactional
-    public List<GetScheduleResponse> getAllSchedules(GetScheduleOfUserRequest request) {
-        List<Schedule> list = scheduleRepository.findAll().stream().toList();
-        return list.stream().map(schedule->
-                new GetScheduleResponse(
+                    schedule.getUpdatedAt())).sorted(new Comparator<GetScheduleResponse>() {
+                @Override
+                public int compare(GetScheduleResponse o1, GetScheduleResponse o2) {
+                    return o2.getUpdatedAt().compareTo(o1.getUpdatedAt());
+                }
+            }).toList();
+        }
+        ArrayList<GetScheduleResponse> userSchedules = new ArrayList<>();
+        for (Schedule schedule : list) {
+            if (schedule.getWriter().equals(request.getWriter())) {
+                userSchedules.add(new GetScheduleResponse(
                         schedule.getId(),
                         schedule.getTitle(),
                         schedule.getContent(),
                         schedule.getWriter(),
                         schedule.getCreatedAt(),
-                        schedule.getUpdatedAt())).toList();
+                        schedule.getUpdatedAt()));
+            }
+        }
+        return userSchedules.stream().sorted(new Comparator<GetScheduleResponse>() {
+            @Override
+            public int compare(GetScheduleResponse o1, GetScheduleResponse o2) {
+                return o2.getUpdatedAt().compareTo(o1.getUpdatedAt());
+            }
+        }).toList();
+
     }
 
     //일정 수정
     @Transactional
-    public UpdateScheduleResponse updateSchedule(Long scheduleId,UpdateScheduleRequest request){
+    public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
                 -> new IllegalStateException("존재하지 않는 일정입니다."));
-        if(request.getPassword().equals(schedule.getPassword())){
+        if (request.getPassword().equals(schedule.getPassword())) {
             schedule.update(
                     request.getTitle(),
                     request.getWriter());
@@ -100,10 +116,10 @@ public class ScheduleService {
 
     //특정 일정 삭제
     @Transactional
-    public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request){
+    public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
-        -> new IllegalStateException("존재하지 않는 일정입니다."));
-        if(schedule.getPassword().equals(request.getPassword())){
+                -> new IllegalStateException("존재하지 않는 일정입니다."));
+        if (schedule.getPassword().equals(request.getPassword())) {
             scheduleRepository.deleteById(scheduleId);
         } else {
             throw new RuntimeException("패스워드가 일치하지 않습니다.");

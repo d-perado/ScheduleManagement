@@ -35,7 +35,7 @@ public class ScheduleController {
     public ResponseEntity<List<GetScheduleResponse>> getAllSchedules(
             @RequestBody GetScheduleOfUserRequest request
     ) {
-        List<GetScheduleResponse> result = scheduleService.getAllSchedules();
+        List<GetScheduleResponse> result = scheduleService.getAllSchedules(request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
