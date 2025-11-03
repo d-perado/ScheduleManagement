@@ -1,9 +1,7 @@
 package org.example.schedulemanagement.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedulemanagement.dto.CreateScheduleRequest;
-import org.example.schedulemanagement.dto.CreateScheduleResponse;
-import org.example.schedulemanagement.dto.GetScheduleResponse;
+import org.example.schedulemanagement.dto.*;
 import org.example.schedulemanagement.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +35,22 @@ public class ScheduleController {
     public ResponseEntity<List<GetScheduleResponse>> getAllSchedules(){
         List<GetScheduleResponse> result = scheduleService.getAllSchedules();
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PutMapping("/schedules/{scheduleId}")
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody UpdateScheduleRequest request
+            ){
+        UpdateScheduleResponse result = scheduleService.updateSchedule(scheduleId,request);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("/schedules")
+    public ResponseEntity<Void> deleteSchedule(
+            @PathVariable Long scheduleId
+    ){
+        scheduleService.deleteSchedule(scheduleId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

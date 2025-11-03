@@ -1,13 +1,12 @@
 package org.example.schedulemanagement.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedulemanagement.dto.CreateScheduleRequest;
-import org.example.schedulemanagement.dto.CreateScheduleResponse;
-import org.example.schedulemanagement.dto.GetScheduleResponse;
+import org.example.schedulemanagement.dto.*;
 import org.example.schedulemanagement.entity.Schedule;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -58,5 +57,36 @@ public class ScheduleService {
                     schedule.getWriter(),
                     schedule.getCreatedAt(),
                     schedule.getUpdatedAt())).toList();
+    }
+
+    //일정 수정
+    public UpdateScheduleResponse updateSchedule(Long scheduleId,UpdateScheduleRequest request){
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
+                -> new IllegalStateException("존재하지 않는 일정입니다."));
+        if(request.getPassword().equals(schedule.getPassword())){
+            schedule.update(
+                    request.getTitle(),
+                    request.getContent(),
+                    request.getWriter());
+        } else {
+            throw new RuntimeException("패스워드가 일치하지 않습니다.");
+        }
+        return new UpdateScheduleResponse(
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getContent(),
+                schedule.getWriter(),
+                schedule.getCreatedAt(),
+                LocalDateTime.now());
+    }
+
+    //특정 일정 삭제
+    public void deleteSchedule(Long scheduleId){
+        boolean existence = scheduleRepository.existsById(scheduleId);
+
+        if (!existence) {
+            throw new IllegalStateException("존재하지 않는 일정입니다.");
+        }
+        scheduleRepository.deleteById(scheduleId);
     }
 }
