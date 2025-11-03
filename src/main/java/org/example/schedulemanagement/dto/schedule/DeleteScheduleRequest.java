@@ -1,10 +1,10 @@
-package org.example.schedulemanagement.dto;
+package org.example.schedulemanagement.dto.schedule;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateScheduleRequest extends ScheduleRequest {
+public class DeleteScheduleRequest {
     private String password;
 }

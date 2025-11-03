@@ -1,7 +1,7 @@
 package org.example.schedulemanagement.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedulemanagement.dto.*;
+import org.example.schedulemanagement.dto.schedule.*;
 import org.example.schedulemanagement.entity.Schedule;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return new CreateScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getWriter(),
@@ -45,7 +45,7 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
                 -> new IllegalStateException("존재하지 않는 일정 입니다."));
         return new GetScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getWriter(),
@@ -60,7 +60,7 @@ public class ScheduleService {
         List<Schedule> list = scheduleRepository.findAll().stream().toList();
         if (request.getWriter().equals("")) {
             return list.stream().map(schedule
-                    -> new GetScheduleResponse(schedule.getId(),
+                    -> new GetScheduleResponse(schedule.getScheduleId(),
                     schedule.getTitle(),
                     schedule.getContent(),
                     schedule.getWriter(),
@@ -76,7 +76,7 @@ public class ScheduleService {
         for (Schedule schedule : list) {
             if (schedule.getWriter().equals(request.getWriter())) {
                 userSchedules.add(new GetScheduleResponse(
-                        schedule.getId(),
+                        schedule.getScheduleId(),
                         schedule.getTitle(),
                         schedule.getContent(),
                         schedule.getWriter(),
@@ -106,7 +106,7 @@ public class ScheduleService {
             throw new RuntimeException("패스워드가 일치하지 않습니다.");
         }
         return new UpdateScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getWriter(),
