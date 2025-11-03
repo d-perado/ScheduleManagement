@@ -36,16 +36,15 @@ public class Schedule {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Schedule(String title, String content, String writer, String password){
+    public Schedule(String title, String content, String writer, String password) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.password = password;
     }
 
-    public void update(String title, String content, String writer) {
+    public void update(String title, String writer) {
         this.title = title;
-        this.content = content;
         this.writer = writer;
     }
 }

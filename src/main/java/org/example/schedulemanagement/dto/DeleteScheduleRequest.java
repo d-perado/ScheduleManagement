@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateScheduleRequest extends ScheduleRequest {
+public class DeleteScheduleRequest {
     private String password;
 }

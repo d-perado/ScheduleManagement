@@ -5,5 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdateScheduleRequest extends ScheduleRequest{
+public class UpdateScheduleRequest {
+    private String title;
+    private String writer;
+    private String password;
 }
