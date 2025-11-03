@@ -8,6 +8,9 @@ import org.example.schedulemanagement.entity.Schedule;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -44,5 +47,17 @@ public class ScheduleService {
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt()
         );
+    }
+
+    public List<GetScheduleResponse> getAllSchedules() {
+        List<Schedule> list = scheduleRepository.findAll().stream().toList();
+        return list.stream().map(schedule->
+            new GetScheduleResponse(
+                    schedule.getId(),
+                    schedule.getTitle(),
+                    schedule.getContent(),
+                    schedule.getWriter(),
+                    schedule.getCreatedAt(),
+                    schedule.getUpdatedAt())).toList();
     }
 }
