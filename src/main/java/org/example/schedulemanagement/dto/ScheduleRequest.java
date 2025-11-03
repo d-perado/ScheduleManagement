@@ -1,4 +1,13 @@
 package org.example.schedulemanagement.dto;
 
-public class ScheduleRequest {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public abstract class ScheduleRequest {
+    private String title;
+    private String content;
+    private String writer;
+    private String password;
 }
