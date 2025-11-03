@@ -9,14 +9,13 @@ import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-
+    //일정 생성
     public CreateScheduleResponse createSchedule(CreateScheduleRequest request){
         Schedule schedule = new Schedule(
                 request.getTitle(),
@@ -35,7 +34,7 @@ public class ScheduleService {
                 schedule.getUpdatedAt());
 
     }
-
+    //일정 단건 조회
     public GetScheduleResponse getSchedule(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
                 -> new IllegalStateException("존재하지 않는 일정 입니다."));
@@ -48,7 +47,7 @@ public class ScheduleService {
                 schedule.getUpdatedAt()
         );
     }
-
+    //일정 전체 조회
     public List<GetScheduleResponse> getAllSchedules() {
         List<Schedule> list = scheduleRepository.findAll().stream().toList();
         return list.stream().map(schedule->

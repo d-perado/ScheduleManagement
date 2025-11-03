@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedulemanagement.dto.CreateScheduleRequest;
 import org.example.schedulemanagement.dto.CreateScheduleResponse;
 import org.example.schedulemanagement.dto.GetScheduleResponse;
-import org.example.schedulemanagement.entity.Schedule;
 import org.example.schedulemanagement.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
