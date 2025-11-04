@@ -38,21 +38,6 @@ public class ScheduleService {
                 schedule.getUpdatedAt());
     }
 
-    //일정 단건 조회
-    @Transactional(readOnly = true)
-    public GetScheduleResponse getSchedule(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
-                -> new IllegalStateException("존재하지 않는 일정 입니다."));
-        return new GetScheduleResponse(
-                schedule.getScheduleId(),
-                schedule.getTitle(),
-                schedule.getContent(),
-                schedule.getWriter(),
-                schedule.getCreatedAt(),
-                schedule.getUpdatedAt()
-        );
-    }
-
     //일정 전체 조회
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAllSchedules(GetScheduleByWriterRequest request) {
