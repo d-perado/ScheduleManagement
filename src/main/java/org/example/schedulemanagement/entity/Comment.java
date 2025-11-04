@@ -26,7 +26,6 @@ public class Comment {
     @Column(nullable = false, length = 30)
     private String writer;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
     @Column(nullable = false)
