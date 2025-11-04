@@ -1,7 +1,10 @@
 package org.example.schedulemanagement.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.schedulemanagement.dto.comment.CreateCommentRequest;
+import org.example.schedulemanagement.dto.comment.CreateCommentResponse;
 import org.example.schedulemanagement.dto.schedule.*;
+import org.example.schedulemanagement.service.CommentService;
 import org.example.schedulemanagement.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ScheduleController {
-
+    private final CommentService commentService;
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
@@ -55,5 +58,13 @@ public class ScheduleController {
     ) {
         scheduleService.deleteSchedule(scheduleId, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/comments")
+    public ResponseEntity<CreateCommentResponse> createComment(
+            @RequestBody CreateCommentRequest request
+    ){
+        CreateCommentResponse result = commentService.createComment(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }
