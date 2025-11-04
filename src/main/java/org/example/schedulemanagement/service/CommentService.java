@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedulemanagement.dto.comment.CreateCommentRequest;
 import org.example.schedulemanagement.dto.comment.CreateCommentResponse;
 import org.example.schedulemanagement.dto.schedule.CommentResponse;
-import org.example.schedulemanagement.dto.schedule.GetCommentListByScheduleResponse;
 import org.example.schedulemanagement.dto.schedule.GetScheduleWithCommentResponse;
 import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
