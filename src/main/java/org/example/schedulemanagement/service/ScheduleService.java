@@ -41,40 +41,18 @@ public class ScheduleService {
     //일정 전체 조회
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAllSchedules(GetScheduleByWriterRequest request) {
-        List<Schedule> list = scheduleRepository.findAll().stream().toList();
-        if (request.getWriter().isEmpty()) {
-            return list.stream().map(schedule
-                    -> new GetScheduleResponse(schedule.getScheduleId(),
-                    schedule.getTitle(),
-                    schedule.getContent(),
-                    schedule.getWriter(),
-                    schedule.getCreatedAt(),
-                    schedule.getUpdatedAt())).sorted(new Comparator<GetScheduleResponse>() {
-                @Override
-                public int compare(GetScheduleResponse o1, GetScheduleResponse o2) {
-                    return o2.getUpdatedAt().compareTo(o1.getUpdatedAt());
-                }
-            }).toList();
-        }
-        ArrayList<GetScheduleResponse> userSchedules = new ArrayList<>();
-        for (Schedule schedule : list) {
-            if (schedule.getWriter().equals(request.getWriter())) {
-                userSchedules.add(new GetScheduleResponse(
+        return scheduleRepository.findAll().stream()
+                .filter(schedule -> request.getWriter().isEmpty()
+                        || schedule.getWriter().equals(request.getWriter()))
+                .map(schedule -> new GetScheduleResponse(
                         schedule.getScheduleId(),
                         schedule.getTitle(),
                         schedule.getContent(),
                         schedule.getWriter(),
                         schedule.getCreatedAt(),
-                        schedule.getUpdatedAt()));
-            }
-        }
-        return userSchedules.stream().sorted(new Comparator<GetScheduleResponse>() {
-            @Override
-            public int compare(GetScheduleResponse o1, GetScheduleResponse o2) {
-                return o2.getUpdatedAt().compareTo(o1.getUpdatedAt());
-            }
-        }).toList();
-
+                        schedule.getUpdatedAt()))
+                .sorted(Comparator.comparing(GetScheduleResponse::getUpdatedAt).reversed())
+                .toList();
     }
 
     //일정 수정
