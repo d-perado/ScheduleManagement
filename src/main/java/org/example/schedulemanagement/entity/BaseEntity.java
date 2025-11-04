@@ -1,6 +1,5 @@
 package org.example.schedulemanagement.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
