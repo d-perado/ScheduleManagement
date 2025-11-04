@@ -20,7 +20,6 @@ import java.util.List;
 public class Schedule{
 
     @Id
-    @Column(name = "SCHEDULE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
     @Column(nullable = false, length = 50)
@@ -31,8 +30,7 @@ public class Schedule{
     private String writer;
     @Column(nullable = false, length = 50)
     private String password;
-    @OneToMany
-    @JoinColumn(name = "SCHEDULE_ID")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
@@ -51,5 +49,9 @@ public class Schedule{
     public void update(String title, String writer) {
         this.title = title;
         this.writer = writer;
+    }
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setSchedule(this);
     }
 }

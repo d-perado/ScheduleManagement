@@ -3,6 +3,7 @@ package org.example.schedulemanagement.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,22 +15,27 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class Comment{
+public class Comment {
     @Id
-    @Column(name = "COMMENT_ID")
+    @Column(name = "comment_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String comment;
     private String writer;
-    @Column(name = "SCHEDULE_ID")
-    private Long scheduleId;
+    @Setter
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
+    private String password;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Comment(String comment, String writer, Long scheduleId){
+    public Comment(String comment, String writer, String password) {
         this.comment = comment;
         this.writer = writer;
-        this.scheduleId =scheduleId;
+        this.password = password;
     }
+
 }
