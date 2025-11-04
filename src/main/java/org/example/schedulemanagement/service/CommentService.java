@@ -20,6 +20,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
+    private static final int MAX_COMMENT_COUNT = 10;
+
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
@@ -27,7 +29,7 @@ public class CommentService {
         List<Comment> comments = commentRepository
                 .findAll().stream()
                 .filter(comment -> comment.getSchedule().getId().equals(schedule.getId())).toList();
-        if(comments.size() >= 10){
+        if(comments.size() >= MAX_COMMENT_COUNT){
             throw new RuntimeException("댓글이 10개 이상입니다.");
         }
 
