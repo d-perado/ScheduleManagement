@@ -9,7 +9,6 @@ import org.example.schedulemanagement.service.CommentService;
 import org.example.schedulemanagement.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,8 +65,8 @@ public class ScheduleController {
     public ResponseEntity<CreateCommentResponse> createComment(
             @PathVariable Long scheduleId,
             @Valid @RequestBody CreateCommentRequest request
-    ){
-        CreateCommentResponse result = commentService.createComment(request,scheduleId);
+    ) {
+        CreateCommentResponse result = commentService.createComment(scheduleId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

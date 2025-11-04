@@ -13,7 +13,13 @@ public abstract class ScheduleResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    protected ScheduleResponse(Long id, String title, String content, String writer, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    protected ScheduleResponse(Long id,
+                               String title,
+                               String content,
+                               String writer,
+                               LocalDateTime createdAt,
+                               LocalDateTime updatedAt
+    ) {
         this.id = id;
         this.title = title;
         this.content = content;

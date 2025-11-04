@@ -1,4 +1,4 @@
-package org.example.schedulemanagement.dto.schedule;
+package org.example.schedulemanagement.dto.comment;
 
 import lombok.Getter;
 
@@ -12,7 +12,12 @@ public class CommentResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public CommentResponse(Long id, String comment, String writer, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public CommentResponse(Long id,
+                           String comment,
+                           String writer,
+                           LocalDateTime createdAt,
+                           LocalDateTime updatedAt
+    ) {
         this.id = id;
         this.comment = comment;
         this.writer = writer;

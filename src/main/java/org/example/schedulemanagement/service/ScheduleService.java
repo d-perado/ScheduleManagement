@@ -29,7 +29,7 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return new CreateScheduleResponse(
-                schedule.getScheduleId(),
+                schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getWriter(),
@@ -44,7 +44,7 @@ public class ScheduleService {
                 .filter(schedule -> request.getWriter().isEmpty()
                         || schedule.getWriter().equals(request.getWriter()))
                 .map(schedule -> new GetScheduleResponse(
-                        schedule.getScheduleId(),
+                        schedule.getId(),
                         schedule.getTitle(),
                         schedule.getContent(),
                         schedule.getWriter(),
@@ -60,14 +60,14 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
                 -> new IllegalStateException("존재하지 않는 일정입니다."));
         if (request.getPassword().equals(schedule.getPassword())) {
-            schedule.update(
+            schedule.modify(
                     request.getTitle(),
                     request.getWriter());
         } else {
             throw new RuntimeException("패스워드가 일치하지 않습니다.");
         }
         return new UpdateScheduleResponse(
-                schedule.getScheduleId(),
+                schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getWriter(),

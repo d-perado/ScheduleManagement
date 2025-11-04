@@ -3,7 +3,7 @@ package org.example.schedulemanagement.service;
 import lombok.RequiredArgsConstructor;
 import org.example.schedulemanagement.dto.comment.CreateCommentRequest;
 import org.example.schedulemanagement.dto.comment.CreateCommentResponse;
-import org.example.schedulemanagement.dto.schedule.CommentResponse;
+import org.example.schedulemanagement.dto.comment.CommentResponse;
 import org.example.schedulemanagement.dto.schedule.GetScheduleWithCommentResponse;
 import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
@@ -21,20 +21,22 @@ public class CommentService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public CreateCommentResponse createComment(CreateCommentRequest request, Long scheduleId) {
+    public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("일정이 존재하지 않습니다."));
         if (schedule.getComments().size() >= 10) {
             throw new IllegalStateException("댓글은 최대 10개까지만 작성할 수 있습니다.");
         }
 
-        Comment comment = new Comment(request.getComment(), request.getWriter(), request.getPassword(), schedule);
-
-        Comment savedComment = commentRepository.save(comment);
+        Comment savedComment = commentRepository.save( new Comment(request.getComment(),
+                request.getWriter(),
+                request.getPassword(),
+                schedule
+        ));
 
         return new CreateCommentResponse(
+                savedComment.getSchedule().getId(),
                 savedComment.getId(),
-                savedComment.getSchedule().getScheduleId(),
                 savedComment.getComment(),
                 savedComment.getWriter(),
                 savedComment.getCreatedAt(),
@@ -49,7 +51,7 @@ public class CommentService {
         List<CommentResponse> commentList = commentRepository.findAll()
                 .stream()
                 .filter(comment ->
-                        comment.getSchedule().getScheduleId().equals(scheduleId))
+                        comment.getSchedule().getId().equals(scheduleId))
                 .map(comment ->
                         new CommentResponse(comment.getId(),
                                 comment.getComment(),
@@ -58,7 +60,7 @@ public class CommentService {
                                 comment.getUpdatedAt())
                 ).toList();
 
-        return new GetScheduleWithCommentResponse(schedule.getScheduleId(),
+        return new GetScheduleWithCommentResponse(schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getWriter(),

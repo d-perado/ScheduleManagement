@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long scheduleId;
+    private Long id;
     @Column(nullable = false, length = 30)
     private String title;
     @Column(nullable = false, length = 200)
@@ -45,7 +44,7 @@ public class Schedule {
         this.password = password;
     }
 
-    public void update(String title, String writer) {
+    public void modify(String title, String writer) {
         this.title = title;
         this.writer = writer;
     }
