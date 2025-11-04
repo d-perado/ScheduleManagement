@@ -17,7 +17,6 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-    //일정 생성
     @Transactional
     public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
         Schedule schedule = new Schedule(
@@ -37,7 +36,6 @@ public class ScheduleService {
                 schedule.getUpdatedAt());
     }
 
-    //일정 전체 조회
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAllSchedules(String writer) {
         return scheduleRepository.findAll().stream()
@@ -54,7 +52,6 @@ public class ScheduleService {
                 .toList();
     }
 
-    //일정 수정
     @Transactional
     public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
@@ -75,7 +72,6 @@ public class ScheduleService {
                 LocalDateTime.now());
     }
 
-    //특정 일정 삭제
     @Transactional
     public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
