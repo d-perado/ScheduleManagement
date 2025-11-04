@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "schedules")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class Schedule {
+public class Schedule extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,10 +28,7 @@ public class Schedule {
     private String writer;
     @Column(nullable = false)
     private String password;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+
 
 
     @Builder

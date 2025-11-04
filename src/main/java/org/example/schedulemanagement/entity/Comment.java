@@ -14,9 +14,8 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "comments")
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class Comment {
+public class Comment extends BaseEntity{
     @Id
     @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +29,6 @@ public class Comment {
     private Schedule schedule;
     @Column(nullable = false)
     private String password;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
     @Builder
     public Comment(String comment, String writer, String password, Schedule schedule) {
