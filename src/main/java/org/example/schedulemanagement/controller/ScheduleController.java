@@ -1,5 +1,6 @@
 package org.example.schedulemanagement.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedulemanagement.dto.comment.CreateCommentRequest;
 import org.example.schedulemanagement.dto.comment.CreateCommentResponse;
@@ -8,6 +9,7 @@ import org.example.schedulemanagement.service.CommentService;
 import org.example.schedulemanagement.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(
-            @RequestBody CreateScheduleRequest request
+            @Valid @RequestBody CreateScheduleRequest request
     ) {
         CreateScheduleResponse result = scheduleService.createSchedule(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -63,7 +65,7 @@ public class ScheduleController {
     @PostMapping("/schedules/{scheduleId}/comments")
     public ResponseEntity<CreateCommentResponse> createComment(
             @PathVariable Long scheduleId,
-            @RequestBody CreateCommentRequest request
+            @Valid @RequestBody CreateCommentRequest request
     ){
         CreateCommentResponse result = commentService.createComment(request,scheduleId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
