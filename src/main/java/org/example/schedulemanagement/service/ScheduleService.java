@@ -39,10 +39,10 @@ public class ScheduleService {
 
     //일정 전체 조회
     @Transactional(readOnly = true)
-    public List<GetScheduleResponse> getAllSchedules(GetScheduleByWriterRequest request) {
+    public List<GetScheduleResponse> getAllSchedules(String writer) {
         return scheduleRepository.findAll().stream()
-                .filter(schedule -> request.getWriter().isEmpty()
-                        || schedule.getWriter().equals(request.getWriter()))
+                .filter(schedule -> writer.isEmpty()
+                        || schedule.getWriter().equals(writer))
                 .map(schedule -> new GetScheduleResponse(
                         schedule.getId(),
                         schedule.getTitle(),
