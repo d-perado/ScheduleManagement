@@ -3,6 +3,7 @@ package org.example.schedulemanagement.service;
 import lombok.RequiredArgsConstructor;
 import org.example.schedulemanagement.dto.schedule.*;
 import org.example.schedulemanagement.entity.Schedule;
+import org.example.schedulemanagement.exception.InvalidPasswordException;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +61,7 @@ public class ScheduleService {
                     request.getTitle(),
                     request.getWriter());
         } else {
-            throw new RuntimeException("패스워드가 일치하지 않습니다.");
+            throw new InvalidPasswordException();
         }
         return new UpdateScheduleResponse(
                 schedule.getId(),
@@ -78,7 +79,7 @@ public class ScheduleService {
         if (schedule.getPassword().equals(request.getPassword())) {
             scheduleRepository.deleteById(scheduleId);
         } else {
-            throw new RuntimeException("패스워드가 일치하지 않습니다.");
+            throw new InvalidPasswordException();
         }
     }
 }
