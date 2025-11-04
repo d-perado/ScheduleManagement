@@ -26,7 +26,7 @@ public class Comment {
     @Column(nullable = false, length = 30)
     private String writer;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
+    @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
     @Column(nullable = false)
     private String password;

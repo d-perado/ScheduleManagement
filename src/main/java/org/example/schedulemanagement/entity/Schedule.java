@@ -28,8 +28,6 @@ public class Schedule {
     private String writer;
     @Column(nullable = false)
     private String password;
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

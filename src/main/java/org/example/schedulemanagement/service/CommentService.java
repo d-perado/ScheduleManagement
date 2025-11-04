@@ -24,8 +24,11 @@ public class CommentService {
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("일정이 존재하지 않습니다."));
-        if (schedule.getComments().size() >= 10) {
-            throw new IllegalStateException("댓글은 최대 10개까지만 작성할 수 있습니다.");
+        List<Comment> comments = commentRepository
+                .findAll().stream()
+                .filter(comment -> comment.getSchedule().getId().equals(schedule.getId())).toList();
+        if(comments.size() >= 10){
+            throw new RuntimeException("댓글이 10개 이상입니다.");
         }
 
         Comment savedComment = commentRepository.save( new Comment(request.getComment(),
@@ -51,7 +54,7 @@ public class CommentService {
         List<CommentResponse> commentList = commentRepository.findAll()
                 .stream()
                 .filter(comment ->
-                        comment.getSchedule().getId().equals(scheduleId))
+                        comment.getSchedule().getId().equals(schedule.getId()))
                 .map(comment ->
                         new CommentResponse(comment.getId(),
                                 comment.getComment(),
