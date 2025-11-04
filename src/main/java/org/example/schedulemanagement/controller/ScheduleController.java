@@ -27,16 +27,16 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules/{scheduleId}")
-    public ResponseEntity<GetScheduleResponse> getSchedule(
+    public ResponseEntity<GetScheduleWithCommentResponse> getSchedule(
             @PathVariable Long scheduleId
     ) {
-        GetScheduleResponse result = scheduleService.getSchedule(scheduleId);
+        GetScheduleWithCommentResponse result = commentService.getScheduleWithComment(scheduleId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @GetMapping("/schedules")
     public ResponseEntity<List<GetScheduleResponse>> getAllSchedules(
-            @RequestBody GetScheduleOfUserRequest request
+            @RequestBody GetScheduleByWriterRequest request
     ) {
         List<GetScheduleResponse> result = scheduleService.getAllSchedules(request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -60,11 +60,13 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping("/comments")
+    @PostMapping("/schedules/{scheduleId}/comments")
     public ResponseEntity<CreateCommentResponse> createComment(
+            @PathVariable Long scheduleId,
             @RequestBody CreateCommentRequest request
     ){
-        CreateCommentResponse result = commentService.createComment(request);
+        CreateCommentResponse result = commentService.createComment(request,scheduleId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
 }

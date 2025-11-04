@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class GetScheduleOfUserRequest{
+public class GetScheduleByWriterRequest {
     private String writer;
 }

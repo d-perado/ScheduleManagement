@@ -1,9 +1,10 @@
 package org.example.schedulemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,8 +23,8 @@ public class Comment {
     private Long id;
     private String comment;
     private String writer;
-    @Setter
-    @ManyToOne(fetch =FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
     private String password;
@@ -32,10 +33,12 @@ public class Comment {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Comment(String comment, String writer, String password) {
+    @Builder
+    public Comment(String comment, String writer, String password, Schedule schedule) {
         this.comment = comment;
         this.writer = writer;
         this.password = password;
+        this.schedule = schedule;
     }
 
 }

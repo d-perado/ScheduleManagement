@@ -17,12 +17,11 @@ import java.util.List;
 @Table(name = "schedules")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class Schedule{
-
+public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 30)
     private String title;
     @Column(nullable = false, length = 200)
     private String content;
@@ -50,8 +49,5 @@ public class Schedule{
         this.title = title;
         this.writer = writer;
     }
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.setSchedule(this);
-    }
+
 }

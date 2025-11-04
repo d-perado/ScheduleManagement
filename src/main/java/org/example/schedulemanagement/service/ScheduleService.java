@@ -36,7 +36,6 @@ public class ScheduleService {
                 schedule.getWriter(),
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt());
-
     }
 
     //일정 단건 조회
@@ -56,9 +55,9 @@ public class ScheduleService {
 
     //일정 전체 조회
     @Transactional(readOnly = true)
-    public List<GetScheduleResponse> getAllSchedules(GetScheduleOfUserRequest request) {
+    public List<GetScheduleResponse> getAllSchedules(GetScheduleByWriterRequest request) {
         List<Schedule> list = scheduleRepository.findAll().stream().toList();
-        if (request.getWriter().equals("")) {
+        if (request.getWriter().isEmpty()) {
             return list.stream().map(schedule
                     -> new GetScheduleResponse(schedule.getScheduleId(),
                     schedule.getTitle(),

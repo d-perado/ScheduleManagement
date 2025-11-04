@@ -9,6 +9,5 @@ import org.example.schedulemanagement.entity.Schedule;
 public class CreateCommentRequest {
     private String comment;
     private String writer;
-    private Long scheduleId;
     private String password;
 }
