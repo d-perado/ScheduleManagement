@@ -27,7 +27,7 @@ public class Schedule {
     private String content;
     @Column(nullable = false, length = 20)
     private String writer;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String password;
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
