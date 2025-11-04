@@ -7,6 +7,7 @@ import org.example.schedulemanagement.exception.InvalidPasswordException;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentService commentService;
 
     @Transactional
     public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
@@ -76,10 +78,10 @@ public class ScheduleService {
     public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(()
                 -> new IllegalStateException("존재하지 않는 일정입니다."));
-        if (schedule.getPassword().equals(request.getPassword())) {
-            scheduleRepository.deleteById(scheduleId);
-        } else {
+        if (!schedule.getPassword().equals(request.getPassword())) {
             throw new InvalidPasswordException();
         }
+        commentService.deleteCommentsByScheduleId(scheduleId);
+        scheduleRepository.deleteById(scheduleId);
     }
 }

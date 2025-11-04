@@ -27,6 +27,7 @@ public class Schedule extends BaseEntity{
 
     @Builder
     public Schedule(String title, String content, String writer, String password) {
+        super();
         this.title = title;
         this.content = content;
         this.writer = writer;

@@ -72,4 +72,9 @@ public class CommentService {
                 schedule.getUpdatedAt(),
                 commentList);
     }
+
+    @Transactional
+    public void deleteCommentsByScheduleId(Long scheduleId) {
+        commentRepository.deleteByScheduleId(scheduleId);
+    }
 }

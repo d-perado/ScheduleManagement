@@ -26,6 +26,7 @@ public class Comment extends BaseEntity{
 
     @Builder
     public Comment(String comment, String writer, String password, Schedule schedule) {
+        super();
         this.comment = comment;
         this.writer = writer;
         this.password = password;
