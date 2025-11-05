@@ -10,7 +10,6 @@ import org.example.schedulemanagement.util.component.Validator;
 import org.example.schedulemanagement.util.exception.CustomException;
 import org.example.schedulemanagement.util.exception.ErrorCode;
 import org.example.schedulemanagement.repository.CommentRepository;
-import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

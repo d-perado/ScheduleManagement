@@ -6,12 +6,11 @@ import org.example.schedulemanagement.dto.schedule.*;
 import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
 import org.example.schedulemanagement.util.component.Validator;
-import org.example.schedulemanagement.util.exception.CustomException;
-import org.example.schedulemanagement.util.exception.ErrorCode;
 import org.example.schedulemanagement.repository.CommentRepository;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -41,14 +40,14 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAllSchedules(String writer) {
-        return scheduleRepository.findAll()
-                .stream()
-                .filter(schedule -> writer.isEmpty()
-                        || schedule.getWriter().equals(writer))
+        List<Schedule> findScheduleList = writer.isEmpty() ? scheduleRepository.findAll() : scheduleRepository.findByWriter(writer);
+
+        return findScheduleList.stream()
                 .map(schedule -> new GetScheduleResponse(new ScheduleDTO(schedule)))
                 .sorted(Comparator.comparing(GetScheduleResponse::getUpdatedAt).reversed())
                 .toList();
     }
+
 
     @Transactional
     public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
