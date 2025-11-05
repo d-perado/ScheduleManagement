@@ -1,7 +1,7 @@
 ## 일정관리 어플리케이션 API
 
 ## ERD
-![스케줄만있는erd](https://github.com/user-attachments/assets/e888ecab-ed84-4b53-ae48-a4472cac0983)
+![댓글포함된erd3](https://github.com/user-attachments/assets/ea299014-c93d-4483-a445-f7f40756a86e)
 
 
 ## API 명세서
