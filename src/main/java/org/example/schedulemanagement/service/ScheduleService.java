@@ -1,9 +1,13 @@
 package org.example.schedulemanagement.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.schedulemanagement.dto.comment.CommentDTO;
 import org.example.schedulemanagement.dto.schedule.*;
+import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
-import org.example.schedulemanagement.exception.InvalidPasswordException;
+import org.example.schedulemanagement.util.component.PasswordValidator;
+import org.example.schedulemanagement.util.exception.CustomException;
+import org.example.schedulemanagement.util.exception.ErrorCode;
 import org.example.schedulemanagement.repository.CommentRepository;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
@@ -17,11 +21,11 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final CommentRepository commentRepository;
+    private final PasswordValidator passwordValidator;
 
     @Transactional
     public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
-        //논리순서로 작성하기
-        //띄어쓰기
+
         Schedule newSchedule = new Schedule(
                 request.getTitle(),
                 request.getContent(),
@@ -48,30 +52,42 @@ public class ScheduleService {
 
     @Transactional
     public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
-        Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+        Schedule findSchedule = checkExistSchedule(scheduleId);
 
-        if (!request.getPassword().equals(schedule.getPassword())) {
-            throw new InvalidPasswordException();
-        }
+        passwordValidator.validate(findSchedule.getPassword(), request.getPassword());
 
-        schedule.modify(request.getTitle(), request.getWriter());
+        findSchedule.modify(request.getTitle(), request.getWriter());
 
-        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        ScheduleDTO scheduleDTO = new ScheduleDTO(findSchedule);
         return new UpdateScheduleResponse(scheduleDTO);
     }
 
     @Transactional
     public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
-        Schedule findSchedule = scheduleRepository.findById(scheduleId).orElseThrow(()
-                -> new IllegalStateException("존재하지 않는 일정입니다."));
+        Schedule findSchedule = checkExistSchedule(scheduleId);
 
-        if (!findSchedule.getPassword().equals(request.getPassword())) {
-            throw new InvalidPasswordException();
-        }
+        passwordValidator.validate(findSchedule.getPassword(), request.getPassword());
 
         commentRepository.deleteByScheduleId(scheduleId);
         scheduleRepository.deleteById(scheduleId);
 
+    }
+
+    @Transactional(readOnly = true)
+    public GetScheduleWithCommentResponse getScheduleWithComment(Long scheduleId) {
+        Schedule findSchedule = checkExistSchedule(scheduleId);
+
+        ScheduleDTO scheduleDTO = new ScheduleDTO(findSchedule);
+
+        List<Comment> findCommentList = commentRepository.findByScheduleId(scheduleId);
+        List<CommentDTO> commentDTOList = findCommentList.stream().map(CommentDTO::new).toList();
+
+        return new GetScheduleWithCommentResponse(scheduleDTO, commentDTOList);
+
+    }
+
+    private Schedule checkExistSchedule(Long scheduleId){
+        return scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
     }
 }

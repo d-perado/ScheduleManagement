@@ -4,15 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedulemanagement.dto.comment.CreateCommentRequest;
 import org.example.schedulemanagement.dto.comment.CreateCommentResponse;
 import org.example.schedulemanagement.dto.comment.CommentDTO;
-import org.example.schedulemanagement.dto.schedule.GetScheduleWithCommentResponse;
-import org.example.schedulemanagement.dto.schedule.ScheduleDTO;
 import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
+import org.example.schedulemanagement.util.exception.CustomException;
+import org.example.schedulemanagement.util.exception.ErrorCode;
 import org.example.schedulemanagement.repository.CommentRepository;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +25,12 @@ public class CommentService {
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("일정이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         Long commentCount = commentRepository.countByScheduleId(scheduleId);
 
         if (commentCount >= MAX_COMMENT_COUNT) {
-            throw new RuntimeException("댓글이 10개 이상입니다.");
+            throw new CustomException(ErrorCode.COMMENT_OUT_OF_BOUND);
         }
 
         Comment savedComment = commentRepository.save( new Comment(request.getComment(),
@@ -44,18 +43,5 @@ public class CommentService {
         return new CreateCommentResponse(commentDTO);
     }
 
-    @Transactional(readOnly = true)
-    public GetScheduleWithCommentResponse getScheduleWithComment(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정 입니다."));
-
-        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-
-        List<Comment> findCommentList = commentRepository.findByScheduleId(scheduleId);
-        List<CommentDTO> commentDTOList = findCommentList.stream().map(CommentDTO::new).toList();
-
-        return new GetScheduleWithCommentResponse(scheduleDTO, commentDTOList);
-
-    }
 
 }

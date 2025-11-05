@@ -30,7 +30,7 @@ public class ScheduleController {
     public ResponseEntity<GetScheduleWithCommentResponse> getSchedule(
             @PathVariable Long scheduleId
     ) {
-        GetScheduleWithCommentResponse result = commentService.getScheduleWithComment(scheduleId);
+        GetScheduleWithCommentResponse result = scheduleService.getScheduleWithComment(scheduleId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
