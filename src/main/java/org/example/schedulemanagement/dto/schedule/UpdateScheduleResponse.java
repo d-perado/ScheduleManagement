@@ -4,15 +4,21 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class UpdateScheduleResponse extends ScheduleResponse {
+public class UpdateScheduleResponse {
 
-    public UpdateScheduleResponse(Long id,
-                                  String title,
-                                  String content,
-                                  String writer,
-                                  LocalDateTime createdAt,
-                                  LocalDateTime updatedAt
-    ) {
-        super(id, title, content, writer, createdAt, updatedAt);
+    private final Long id;
+    private final String title;
+    private final String content;
+    private final String writer;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
+
+    public UpdateScheduleResponse(ScheduleDTO scheduleDTO) {
+        this.id = scheduleDTO.getId();
+        this.title = scheduleDTO.getTitle();
+        this.content = scheduleDTO.getContent();
+        this.writer = scheduleDTO.getWriter();
+        this.createdAt = scheduleDTO.getCreatedAt();
+        this.updatedAt = scheduleDTO.getUpdatedAt();
     }
 }

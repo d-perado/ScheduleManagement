@@ -7,7 +7,6 @@ import org.example.schedulemanagement.exception.InvalidPasswordException;
 import org.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -29,13 +28,9 @@ public class ScheduleService {
 
         scheduleRepository.save(schedule);
 
-        return new CreateScheduleResponse(
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContent(),
-                schedule.getWriter(),
-                schedule.getCreatedAt(),
-                schedule.getUpdatedAt());
+        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+
+        return new CreateScheduleResponse(scheduleDTO);
     }
 
     @Transactional(readOnly = true)
@@ -43,13 +38,7 @@ public class ScheduleService {
         return scheduleRepository.findAll().stream()
                 .filter(schedule -> writer.isEmpty()
                         || schedule.getWriter().equals(writer))
-                .map(schedule -> new GetScheduleResponse(
-                        schedule.getId(),
-                        schedule.getTitle(),
-                        schedule.getContent(),
-                        schedule.getWriter(),
-                        schedule.getCreatedAt(),
-                        schedule.getUpdatedAt()))
+                .map(schedule -> new GetScheduleResponse(new ScheduleDTO(schedule)))
                 .sorted(Comparator.comparing(GetScheduleResponse::getUpdatedAt).reversed())
                 .toList();
     }
@@ -65,13 +54,9 @@ public class ScheduleService {
         } else {
             throw new InvalidPasswordException();
         }
-        return new UpdateScheduleResponse(
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContent(),
-                schedule.getWriter(),
-                schedule.getCreatedAt(),
-                LocalDateTime.now());
+
+        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        return new UpdateScheduleResponse(scheduleDTO);
     }
 
     @Transactional
