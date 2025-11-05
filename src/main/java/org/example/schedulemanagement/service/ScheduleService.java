@@ -5,7 +5,7 @@ import org.example.schedulemanagement.dto.comment.CommentDTO;
 import org.example.schedulemanagement.dto.schedule.*;
 import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
-import org.example.schedulemanagement.util.component.PasswordValidator;
+import org.example.schedulemanagement.util.component.Validator;
 import org.example.schedulemanagement.util.exception.CustomException;
 import org.example.schedulemanagement.util.exception.ErrorCode;
 import org.example.schedulemanagement.repository.CommentRepository;
@@ -21,7 +21,7 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final CommentRepository commentRepository;
-    private final PasswordValidator passwordValidator;
+    private final Validator validator;
 
     @Transactional
     public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
@@ -52,9 +52,9 @@ public class ScheduleService {
 
     @Transactional
     public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
-        Schedule findSchedule = checkExistSchedule(scheduleId);
+        Schedule findSchedule = validator.checkExistSchedule(scheduleId);
 
-        passwordValidator.validate(findSchedule.getPassword(), request.getPassword());
+        validator.passwordValidate(findSchedule.getPassword(), request.getPassword());
 
         findSchedule.modify(request.getTitle(), request.getWriter());
 
@@ -64,9 +64,9 @@ public class ScheduleService {
 
     @Transactional
     public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
-        Schedule findSchedule = checkExistSchedule(scheduleId);
+        Schedule findSchedule = validator.checkExistSchedule(scheduleId);
 
-        passwordValidator.validate(findSchedule.getPassword(), request.getPassword());
+        validator.passwordValidate(findSchedule.getPassword(), request.getPassword());
 
         commentRepository.deleteByScheduleId(scheduleId);
         scheduleRepository.deleteById(scheduleId);
@@ -75,7 +75,7 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public GetScheduleWithCommentResponse getScheduleWithComment(Long scheduleId) {
-        Schedule findSchedule = checkExistSchedule(scheduleId);
+        Schedule findSchedule = validator.checkExistSchedule(scheduleId);
 
         ScheduleDTO scheduleDTO = new ScheduleDTO(findSchedule);
 
@@ -86,8 +86,4 @@ public class ScheduleService {
 
     }
 
-    private Schedule checkExistSchedule(Long scheduleId){
-        return scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
-    }
 }
