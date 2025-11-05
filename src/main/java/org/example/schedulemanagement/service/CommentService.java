@@ -42,14 +42,8 @@ public class CommentService {
                 schedule)
         );
 
-        return new CreateCommentResponse(
-                savedComment.getSchedule().getId(),
-                savedComment.getId(),
-                savedComment.getComment(),
-                savedComment.getWriter(),
-                savedComment.getCreatedAt(),
-                savedComment.getUpdatedAt()
-        );
+        CommentDTO commentDTO = new CommentDTO(savedComment);
+        return new CreateCommentResponse(commentDTO);
     }
 
     @Transactional(readOnly = true)
