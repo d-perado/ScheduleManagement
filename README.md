@@ -24,7 +24,7 @@ Spring Boot, JPA, Java, Lombok, MySQL을 활용하여 구현되었습니다.
 - **Backend:** Java, Spring Boot, JPA, Lombok  
 - **Database:** MySQL  
 - **API 문서:** Postman
-
+- **협업툴:** GitHub 
 ---
 
 ## ERD
