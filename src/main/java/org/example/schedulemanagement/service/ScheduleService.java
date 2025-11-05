@@ -51,7 +51,7 @@ public class ScheduleService {
     @Transactional
     public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);
-
+        //패스워드 확인
         validator.passwordValidate(findSchedule.getPassword(), request.getPassword());
 
         findSchedule.modify(request.getTitle(), request.getWriter());
@@ -63,7 +63,7 @@ public class ScheduleService {
     @Transactional
     public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);
-
+        //패스워드 확인
         validator.passwordValidate(findSchedule.getPassword(), request.getPassword());
 
         commentRepository.deleteByScheduleId(scheduleId);

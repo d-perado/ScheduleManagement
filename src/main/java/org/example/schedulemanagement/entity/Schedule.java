@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "schedules")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class Schedule extends BaseEntity{
+public class Schedule extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

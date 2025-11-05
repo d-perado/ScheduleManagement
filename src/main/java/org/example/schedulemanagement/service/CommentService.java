@@ -22,8 +22,9 @@ public class CommentService {
 
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
-        int commentCount = commentRepository.countByScheduleId(scheduleId);
 
+        int commentCount = commentRepository.countByScheduleId(scheduleId);
+        //댓글갯수 확인
         validator.checkCommentCountLimit(commentCount);
 
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);

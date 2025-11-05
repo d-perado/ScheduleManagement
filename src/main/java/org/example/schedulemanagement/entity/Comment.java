@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "comments")
 @NoArgsConstructor
-public class Comment extends BaseEntity{
+public class Comment extends BaseEntity {
     @Id
     @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
