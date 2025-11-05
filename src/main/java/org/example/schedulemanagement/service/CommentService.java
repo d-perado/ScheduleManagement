@@ -7,8 +7,6 @@ import org.example.schedulemanagement.dto.comment.CommentDTO;
 import org.example.schedulemanagement.entity.Comment;
 import org.example.schedulemanagement.entity.Schedule;
 import org.example.schedulemanagement.util.component.Validator;
-import org.example.schedulemanagement.util.exception.CustomException;
-import org.example.schedulemanagement.util.exception.ErrorCode;
 import org.example.schedulemanagement.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +22,11 @@ public class CommentService {
 
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
+        int commentCount = commentRepository.countByScheduleId(scheduleId);
+
+        validator.checkCommentCountLimit(commentCount);
+
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);
-
-        Long commentCount = commentRepository.countByScheduleId(scheduleId);
-
-        if (commentCount >= MAX_COMMENT_COUNT) {
-            throw new CustomException(ErrorCode.COMMENT_OUT_OF_BOUND);
-        }
 
         Comment savedComment = commentRepository.save( new Comment(request.getComment(),
                 request.getWriter(),

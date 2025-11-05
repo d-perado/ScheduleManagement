@@ -18,8 +18,16 @@ public class Validator {
         }
     }
 
+    public void checkCommentCountLimit(int commentCount){
+        int MAX_COMMENT_COUNT = 10;
+        if (commentCount >= MAX_COMMENT_COUNT) {
+            throw new CustomException(ErrorCode.COMMENT_OUT_OF_BOUND);
+        }
+    }
+
     public Schedule checkExistSchedule(Long scheduleId){
         return scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
     }
+
 }

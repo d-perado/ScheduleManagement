@@ -12,9 +12,10 @@ public enum ErrorCode {
     SUCCESS(HttpStatus.OK, "OK"),
 
     //== 400 ==//
-    INVALID_PASSWORD(HttpStatus.BAD_REQUEST,"유효하지 않은 패스워드 입니다."),
-    SCHEDULE_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 일정입니다."),
-    COMMENT_OUT_OF_BOUND(HttpStatus.BAD_REQUEST, "작성가능한 댓글 개수가 초과 되었습니다.");
+    INVALID_PASSWORD(HttpStatus.NOT_FOUND,"유효하지 않은 패스워드 입니다."),
+    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 일정입니다."),
+    COMMENT_OUT_OF_BOUND(HttpStatus.BAD_REQUEST, "작성가능한 댓글 개수가 초과 되었습니다."),
+    NULL_VALUE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "Null 값이 올 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;
