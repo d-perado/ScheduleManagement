@@ -7,9 +7,7 @@ import java.util.List;
 
 @Getter
 public class GetScheduleWithCommentResponse {
-
-    List<CommentDTO> commentList;
-
+    private final List<CommentDTO> commentList;
     private final Long id;
     private final String title;
     private final String content;

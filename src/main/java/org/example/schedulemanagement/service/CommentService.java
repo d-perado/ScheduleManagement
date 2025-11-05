@@ -17,22 +17,20 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+    private static final int MAX_COMMENT_COUNT = 10;
+
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
-    private static final int MAX_COMMENT_COUNT = 10;
 
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("일정이 존재하지 않습니다.")
-                );
+                .orElseThrow(() -> new IllegalArgumentException("일정이 존재하지 않습니다."));
 
-        List<Comment> comments = commentRepository
-                .findAll().stream()
-                .filter(comment -> comment.getSchedule().getId().equals(schedule.getId())).toList();
+        Long commentCount = commentRepository.countByScheduleId(scheduleId);
 
-        if (comments.size() >= MAX_COMMENT_COUNT) {
+        if (commentCount >= MAX_COMMENT_COUNT) {
             throw new RuntimeException("댓글이 10개 이상입니다.");
         }
 
@@ -48,21 +46,16 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public GetScheduleWithCommentResponse getScheduleWithComment(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 일정 입니다.")
-        );
-
-        List<Comment> commentList = commentRepository.findByScheduleId(scheduleId);
-
-        List<CommentDTO> commentDTOList = commentList.stream().map(CommentDTO::new).toList();
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정 입니다."));
 
         ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
 
+        List<Comment> findCommentList = commentRepository.findByScheduleId(scheduleId);
+        List<CommentDTO> commentDTOList = findCommentList.stream().map(CommentDTO::new).toList();
+
         return new GetScheduleWithCommentResponse(scheduleDTO, commentDTOList);
+
     }
 
-    @Transactional
-    public void deleteCommentsByScheduleId(Long scheduleId) {
-        commentRepository.deleteByScheduleId(scheduleId);
-    }
 }

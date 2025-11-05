@@ -13,8 +13,7 @@ public class CreateCommentResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public CreateCommentResponse(CommentDTO commentDTO
-    ) {
+    public CreateCommentResponse(CommentDTO commentDTO) {
         this.id = commentDTO.getId();
         this.comment = commentDTO.getComment();
         this.writer = commentDTO.getWriter();

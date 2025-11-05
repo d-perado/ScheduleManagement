@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateScheduleRequest{
+public class CreateScheduleRequest {
     @NotBlank
-    @Size(max = 30 )
+    @Size(max = 30)
     private String title;
     @NotBlank
-    @Size(max = 200 )
+    @Size(max = 200)
     private String content;
     @NotBlank
     private String writer;
