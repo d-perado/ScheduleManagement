@@ -1,7 +1,8 @@
 # 일정 관리 API
 
-댓글 기능이 포함된 일정 관리 REST API입니다.  
-Spring Boot, JPA, Java, Lombok, MySQL을 활용하여 구현되었습니다.
+ScheduleManagement는 일정 관리 기능을 제공하는 RESTful API 프로젝트입니다.  
+이 프로젝트를 통해 스케줄 관리 기능 구현뿐만 아니라, 실제 개발 과정에서 마주한 설계·구조·데이터 매핑 문제를 해결하며 학습한 경험을 담고 있습니다.
+
 
 ---
 
@@ -21,8 +22,13 @@ Spring Boot, JPA, Java, Lombok, MySQL을 활용하여 구현되었습니다.
 
 ## 기술 스택
 
-- **Backend:** Java, Spring Boot, JPA, Lombok  
-- **Database:** MySQL  
+- **Language**: Java 17
+- **Framework**: Spring Boot 3.x
+- **Persistence**: JPA / Hibernate
+- **Build Tool**: Gradle
+- **Database**: MySQL
+- **Validation**: Jakarta Bean Validation
+- **Lombok**: Getter, Setter, Constructor 자동 생성
 - **API 문서:** Postman
 - **협업툴:** GitHub 
 ---
@@ -49,3 +55,18 @@ Spring Boot, JPA, Java, Lombok, MySQL을 활용하여 구현되었습니다.
 ## API 명세
 
 Postman에서 확인 가능합니다: [API 문서 링크](https://documenter.getpostman.com/view/24302728/2sB3WpRgG6)
+
+
+## 패키지구조
+- org.example.schedulemanagement
+  - controller       # REST API 컨트롤러
+  - dto              # 요청/응답 DTO
+    - schedule
+  - entity           # JPA 엔티티
+  - repository       # Spring Data JPA 레포지토리
+  - service          # 비즈니스 로직
+  - exception        # 예외 처리 클래스
+  - config           # 환경/설정 관련 클래스
+
+
+
