@@ -39,6 +39,7 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAllSchedulesByWriter(String writer) {
+        //writer 메서드가 비어있을경우 전체 스케줄 출력
         List<Schedule> findScheduleList = writer.isEmpty() ? scheduleRepository.findAll() : scheduleRepository.findByWriter(writer);
 
         return findScheduleList.stream()

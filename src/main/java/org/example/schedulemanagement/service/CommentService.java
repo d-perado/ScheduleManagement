@@ -21,9 +21,8 @@ public class CommentService {
 
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
-
+        //댓글갯수 10개 미만인지 확인.
         int commentCount = commentRepository.countByScheduleId(scheduleId);
-        //댓글갯수 확인
         validator.checkCommentCountLimit(commentCount);
 
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);

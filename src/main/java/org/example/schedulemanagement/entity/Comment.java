@@ -19,7 +19,7 @@ public class Comment extends BaseEntity {
     @Column(nullable = false, length = 30)
     private String writer;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SCHEDULE_ID")
+    @JoinColumn(name = "schedule_id")
     private Schedule schedule;
     @Column(nullable = false)
     private String password;
