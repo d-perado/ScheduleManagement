@@ -58,35 +58,12 @@ Postman에서 확인 가능합니다: [API 문서 링크](https://documenter.get
 
 
 ## 패키지구조
-ScheduleManagement/
-├─ gradle/
-│  └─ wrapper/
-├─ src/
-│  ├─ main/
-│  │  ├─ java/
-│  │  │  └─ org/
-│  │  │     └─ example/
-│  │  │        └─ schedulemanagement/
-│  │  │           ├─ controller/
-│  │  │           ├─ dto/
-│  │  │           │  └─ schedule/
-│  │  │           ├─ entity/
-│  │  │           ├─ exception/
-│  │  │           ├─ repository/
-│  │  │           ├─ service/
-│  │  │           └─ config/
-│  │  └─ resources/
-│  │     ├─ application.yml
-│  │     └─ (기타 리소스 파일들)
-│  └─ test/
-│     └─ java/
-│        └─ org/
-│           └─ example/
-│              └─ schedulemanagement/
-│                 └─ (테스트용 클래스들)
-├─ .gitignore
-├─ build.gradle
-├─ gradlew
-├─ gradlew.bat
-├─ settings.gradle
-└─ README.md
+org.example.schedulemanagement
+    ├─ controller       # REST API 컨트롤러
+    ├─ dto              # 요청/응답 DTO
+    │    └─ schedule
+    ├─ entity           # JPA 엔티티
+    ├─ repository       # Spring Data JPA 레포지토리
+    ├─ service          # 비즈니스 로직
+    ├─ exception        # 예외 처리 클래스
+    └─ config           # 환경/설정 관련 클래스
