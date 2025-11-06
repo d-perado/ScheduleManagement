@@ -3,10 +3,8 @@ package org.example.schedulemanagement.dto.comment;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class CreateCommentRequest {
     @NotBlank(message = "작성자는 비어있을 수 없습니다.")
     @Size(max = 100, message = "작성자의 이름은 100자 이내여야 합니다.")
