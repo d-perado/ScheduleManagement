@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private static final int MAX_COMMENT_COUNT = 10;
 
     private final CommentRepository commentRepository;
     private final Validator validator;
