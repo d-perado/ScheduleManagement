@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CreateScheduleRequest {
-    @NotBlank(message = "제목 비어있을 수 없습니다.")
+    @NotBlank(message = "제목은 비어있을 수 없습니다.")
     @Size(max = 30, message = "제목은 최대 30자입니다.")
     private String title;
     @NotBlank(message = "일정내용은 비어있을 수 없습니다.")
