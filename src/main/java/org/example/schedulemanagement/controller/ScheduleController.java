@@ -37,7 +37,7 @@ public class ScheduleController {
 
     @GetMapping("/schedules")
     public ResponseEntity<List<GetScheduleResponse>> handleGetAllSchedules(
-            @RequestParam String writer
+            @RequestParam(required = false) String writer
     ) {
         List<GetScheduleResponse> result = scheduleService.getAllSchedulesByWriter(writer);
         return ResponseEntity.status(HttpStatus.OK).body(result);
