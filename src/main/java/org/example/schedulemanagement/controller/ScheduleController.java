@@ -39,14 +39,14 @@ public class ScheduleController {
     public ResponseEntity<List<GetScheduleResponse>> getAllSchedules(
             @RequestParam String writer
     ) {
-        List<GetScheduleResponse> result = scheduleService.getAllSchedules(writer);
+        List<GetScheduleResponse> result = scheduleService.getAllSchedulesByWriter(writer);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping("/schedules/{scheduleId}")
     public ResponseEntity<UpdateScheduleResponse> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody UpdateScheduleRequest request
+            @Valid @RequestBody UpdateScheduleRequest request
     ) {
         UpdateScheduleResponse result = scheduleService.updateSchedule(scheduleId, request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
