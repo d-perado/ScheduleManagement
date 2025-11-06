@@ -58,6 +58,7 @@ public class ScheduleService {
         findSchedule.modify(request.getTitle(), request.getWriter());
 
         ScheduleDTO scheduleDTO = new ScheduleDTO(findSchedule);
+
         return new UpdateScheduleResponse(scheduleDTO);
     }
 
@@ -69,7 +70,6 @@ public class ScheduleService {
 
         commentRepository.deleteByScheduleId(scheduleId);
         scheduleRepository.deleteById(scheduleId);
-
     }
 
     @Transactional(readOnly = true)

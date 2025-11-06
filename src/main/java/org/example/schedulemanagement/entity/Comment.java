@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @Table(name = "comments")
-@NoArgsConstructor
+@NoArgsConstructor //  @NoArgsConstructor가 엔티티에 붙을때와 Request 에 붙을때 엄연한 차이가 있다.
 public class Comment extends BaseEntity {
     @Id
     @Column(name = "comment_id")
@@ -23,6 +23,8 @@ public class Comment extends BaseEntity {
     private Schedule schedule;
     @Column(nullable = false)
     private String password;
+
+
 
     @Builder
     public Comment(String comment, String writer, String password, Schedule schedule) {

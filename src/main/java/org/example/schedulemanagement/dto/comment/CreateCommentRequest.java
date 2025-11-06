@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor //기본생성자를 만드는 어노테이션
 public class CreateCommentRequest {
     @NotBlank(message = "작성자는 비어있을 수 없습니다.")
     @Size(max = 100, message = "작성자의 이름은 100자 이내여야 합니다.")

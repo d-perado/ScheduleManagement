@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Validator {
     private final ScheduleRepository scheduleRepository;
+    private static final int MAX_COMMENT_COUNT = 10;
 
     public void passwordValidate(String storedPassword, String inputPassword) {
         if (!storedPassword.equals(inputPassword)) {
@@ -19,7 +20,6 @@ public class Validator {
     }
 
     public void checkCommentCountLimit(int commentCount) {
-        int MAX_COMMENT_COUNT = 10;
         if (commentCount >= MAX_COMMENT_COUNT) {
             throw new CustomException(ErrorCode.COMMENT_OUT_OF_BOUND);
         }

@@ -6,7 +6,7 @@ import org.example.schedulemanagement.entity.Comment;
 import java.time.LocalDateTime;
 
 @Getter
-public class CommentDTO {
+public class CommentDTO { //Response 에 객체를 담아주기위한 DTO
     private final Long id;
     private final String comment;
     private final String writer;
