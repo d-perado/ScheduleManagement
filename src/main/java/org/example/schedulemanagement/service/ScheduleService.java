@@ -50,7 +50,7 @@ public class ScheduleService {
 
 
     @Transactional
-    public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
+    public UpdateScheduleResponse updateScheduleById(Long scheduleId, UpdateScheduleRequest request) {
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);
         //패스워드 확인
         validator.passwordValidate(findSchedule.getPassword(), request.getPassword());
@@ -62,7 +62,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void deleteSchedule(Long scheduleId, DeleteScheduleRequest request) {
+    public void deleteScheduleById(Long scheduleId, DeleteScheduleRequest request) {
         Schedule findSchedule = validator.checkExistSchedule(scheduleId);
         //패스워드 확인
         validator.passwordValidate(findSchedule.getPassword(), request.getPassword());

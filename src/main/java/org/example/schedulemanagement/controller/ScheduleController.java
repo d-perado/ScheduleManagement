@@ -20,7 +20,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ResponseEntity<CreateScheduleResponse> createSchedule(
+    public ResponseEntity<CreateScheduleResponse> handleCreateSchedule(
             @Valid @RequestBody CreateScheduleRequest request
     ) {
         CreateScheduleResponse result = scheduleService.createSchedule(request);
@@ -28,7 +28,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules/{scheduleId}")
-    public ResponseEntity<GetScheduleWithCommentResponse> getSchedule(
+    public ResponseEntity<GetScheduleWithCommentResponse> handleGetSchedule(
             @PathVariable Long scheduleId
     ) {
         GetScheduleWithCommentResponse result = scheduleService.getScheduleWithComment(scheduleId);
@@ -36,7 +36,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<GetScheduleResponse>> getAllSchedules(
+    public ResponseEntity<List<GetScheduleResponse>> handleGetAllSchedules(
             @RequestParam String writer
     ) {
         List<GetScheduleResponse> result = scheduleService.getAllSchedulesByWriter(writer);
@@ -44,25 +44,25 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedules/{scheduleId}")
-    public ResponseEntity<UpdateScheduleResponse> updateSchedule(
+    public ResponseEntity<UpdateScheduleResponse> handleUpdateSchedule(
             @PathVariable Long scheduleId,
             @Valid @RequestBody UpdateScheduleRequest request
     ) {
-        UpdateScheduleResponse result = scheduleService.updateSchedule(scheduleId, request);
+        UpdateScheduleResponse result = scheduleService.updateScheduleById(scheduleId, request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping("/schedules/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(
+    public ResponseEntity<Void> handleDeleteSchedule(
             @PathVariable Long scheduleId,
             @RequestBody DeleteScheduleRequest request
     ) {
-        scheduleService.deleteSchedule(scheduleId, request);
+        scheduleService.deleteScheduleById(scheduleId, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping("/schedules/{scheduleId}/comments")
-    public ResponseEntity<CreateCommentResponse> createComment(
+    public ResponseEntity<CreateCommentResponse> handleCreateComment(
             @PathVariable Long scheduleId,
             @Valid @RequestBody CreateCommentRequest request
     ) {
