@@ -38,7 +38,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetScheduleResponse> getAllSchedules(String writer) {
+    public List<GetScheduleResponse> getAllSchedulesByWriter(String writer) {
         List<Schedule> findScheduleList = writer.isEmpty() ? scheduleRepository.findAll() : scheduleRepository.findByWriter(writer);
 
         return findScheduleList.stream()
