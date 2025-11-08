@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Entity
 @Table(name = "schedules")
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class Schedule extends BaseEntity {
     @Id
